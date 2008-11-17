@@ -6,6 +6,11 @@
  */
 class Route extends Model
 {
+	public $uri;
+	public $controller;
+	public $action;
+	public $view;
+	
 	/**
 	 * Calculates whether the specified uri matches the current Route mappings
 	 * @param $uri string
@@ -13,7 +18,20 @@ class Route extends Model
 	 */
 	public function matchesUri($uri)
 	{
+		if ($this->uri == $uri)
+		{
+			return true;
+		}
 		
+		$regex = str_replace('{controller}', '[A-Za-z0-9]*', $this->uri);
+		$regex = str_replace('{action}', '[A-Za-z0-9]*', $regex);
+		
+		if (preg_match($regex, $uri, $matches))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -26,7 +44,13 @@ class Route extends Model
 	 */
 	public static function map($uri, $controller, $action, $view = '')
 	{
+		$route = new Route();
+		$route->uri = $uri;
+		$route->controller = $controller;
+		$route->action = $action;
+		$route->view = $view;
 		
+		return $route;
 	}
 }
 
