@@ -1,1 +1,1 @@
-#summary Bug tracking can be found at: http://www.bugtails.com/projects/174/[http://www.bugtails.com/projects/174/]
+#summary Bug tracking can be found at: [http://www.bugtails.com/projects/174/ http://www.bugtails.com/projects/174/]
