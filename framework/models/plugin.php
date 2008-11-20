@@ -5,14 +5,43 @@
  */
 class Plugin extends Model
 {
-	public $name;
+	public $name
+	public $slug;
 	public $author;
-	public $url;
-	public $updateUrl;
+	public $uri;
+	public $updateUri;
+	public $path;
 	
+	protected $_configs = array();
 	protected $_helpers = array();
 	protected $_managers = array();
 	protected $_models = array();
+	
+	/**
+	 * Adds a manager to the plugin instance
+	 * @param $uri string
+	 * @return void
+	 */
+	public function addConfig($slug, $path = '', $defaultPath = '')
+	{
+		if ($path == '')
+		{
+			$path = "{$slug}_manager";
+		}
+		
+		if ($defaultPath == '')
+		{
+			$defaultPath = "{$slug}_config";
+		}
+		
+		$classRef = new ClassReference();
+		$classRef->className = $slug . 'Helper';
+		$classRef->classPath = $path;
+		$classRef->defaultPath = $defaultPath;
+		$classRef->slug = $slug;
+		
+		$this->_configs[$slug] = $classRef;
+	}
 	
 	/**
 	 * Adds a helper to the plugin instance
@@ -31,7 +60,47 @@ class Plugin extends Model
 		$classRef->classPath = $path;
 		$classRef->slug = $slug;
 		
-		$this->[$slug] = $classRef;
+		$this->_helpers[$slug] = $classRef;
+	}
+	
+	/**
+	 * Adds a manager to the plugin instance
+	 * @param $uri string
+	 * @return void
+	 */
+	public function addManager($slug, $path = '')
+	{
+		if ($path == '')
+		{
+			$path = "{$slug}_manager";
+		}
+		
+		$classRef = new ClassReference();
+		$classRef->className = $slug . 'Manager';
+		$classRef->classPath = $path;
+		$classRef->slug = $slug;
+		
+		$this->_managers[$slug] = $classRef;
+	}
+	
+	/**
+	 * Adds a model to the plugin instance
+	 * @param $uri string
+	 * @return void
+	 */
+	public function addModel($slug, $path = '')
+	{
+		if ($path == '')
+		{
+			$path = $slug;
+		}
+		
+		$classRef = new ClassReference();
+		$classRef->className = $slug;
+		$classRef->classPath = $path;
+		$classRef->slug = $slug;
+		
+		$this->_models[$slug] = $classRef;
 	}
 	
 	/**
