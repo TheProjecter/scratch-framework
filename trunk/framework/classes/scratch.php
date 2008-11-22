@@ -25,7 +25,7 @@ class Scratch
 	
 	public function __construct()
 	{
-		
+		echo 'e';
 	}
 	
 	/**

@@ -9,15 +9,18 @@ $plugin->author = 'sixones';
 $plugin->uri = 'http://scratchframework.com/';
 
 // add the config
-$plugin->addConfig('xslviews');
+$plugin->addConfig('debug');
 
-// hooks
-$plugin->addHook('onRender', 'class.php', 'className', 'action');
+// add the route
+$plugin->addRoute('debug/{action}', Route::map('debug', 'debug', 'displayInformation'));
+
+// add the controller so scratch knows this plugin provides a controller
+$plugin->addController('debug');
 
 // add the helper
-$plugin->addHelper('xml');
+$plugin->addHelper('debug');
 
 // add the manager
-$plugin->addManager('xslcreator');
+$plugin->addManager('log');
 
 ?>

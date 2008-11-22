@@ -23,6 +23,7 @@ class Launcher
 		// invoke the controller
 		// invoke the action
 		// invoke the view
+		echo 'ee';
 		$this->__application = new Scratch();
 	}
 }
