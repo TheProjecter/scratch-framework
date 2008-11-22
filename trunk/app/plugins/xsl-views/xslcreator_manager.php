@@ -3,6 +3,13 @@
 /**
  * XslCreator manager used to create complete xsl files from a bunch of templates, allows the use of 
  * blocks and master files to ease templating in xsl.
+ *
+ * @package scratch.plugins.xsl-views
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class XslCreatorManager
 {

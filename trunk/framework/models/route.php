@@ -3,6 +3,13 @@
 /**
  * Route model, used to define a mapping between a url and a controller and action.
  * Optionally, a route can also define a mapping to a particular view
+ *
+ * @package scratch.framework.models
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class Route extends Model
 {

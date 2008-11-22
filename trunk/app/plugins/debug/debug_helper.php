@@ -2,6 +2,13 @@
 
 /**
  * Debug helper, provides some basic debugging functions
+ *
+ * @package scratch.plugins.debug
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class DebugHelper
 {
