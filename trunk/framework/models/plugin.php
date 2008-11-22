@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve Fletcher
+ * Copyright (c) 2008, Adam Livesley and Steve <unknown>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@
  * Optionally, a route can also define a mapping to a particular view
  *
  * @package scratch.framework.models
- * @author Adam Livesley and Steve Fletcher
- * @copyright Adam Livesley and Steve Fletcher
+ * @author Adam Livesley and Steve <unknown>
+ * @copyright Adam Livesley and Steve <unknown>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
