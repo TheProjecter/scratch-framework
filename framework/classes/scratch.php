@@ -2,6 +2,13 @@
 
 /**
  * Scratch application class, main file to bring the framework together
+ *
+ * @package scratch.framework.classes
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class Scratch
 {
@@ -9,7 +16,7 @@ class Scratch
 	 * Loader instance
 	 * @var Loader
 	 */
-	public $loader = new Loader();
+	public $loader;
 	
 	/**
 	 * Current controller instance
@@ -25,7 +32,10 @@ class Scratch
 	
 	public function __construct()
 	{
-		echo 'e';
+		$this->loader = new Loader();
+		
+		// what shall we load first?
+		$this->
 	}
 	
 	/**

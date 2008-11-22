@@ -3,6 +3,13 @@
 /**
  * Log manager provides a logger that can be used in an application, it also enables the logging functionalities in scratch
  * framework and handles the logs.
+ *
+ * @package scratch.plugins.debug
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class LogManager
 {

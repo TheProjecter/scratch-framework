@@ -1,106 +1,44 @@
 <?php if (!defined('SCRATCH')) { header('Location: /'); exit(); }
 
 /**
- * Plugin model, used to define a plugin instance and handle the correct mappings
+ * Route model, used to define a mapping between a url and a controller and action.
+ * Optionally, a route can also define a mapping to a particular view
+ *
+ * @package scratch.framework.models
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
-class Plugin extends Model
+class Route extends Model
 {
-	public $name
-	public $slug;
-	public $author;
 	public $uri;
-	public $updateUri;
-	public $path;
-	
-	protected $_configs = array();
-	protected $_helpers = array();
-	protected $_managers = array();
-	protected $_models = array();
+	public $controller;
+	public $action;
+	public $view;
 	
 	/**
-	 * Adds a manager to the plugin instance
+	 * Calculates whether the specified uri matches the current Route mappings
 	 * @param $uri string
-	 * @return void
+	 * @return bool
 	 */
-	public function addConfig($slug, $path = '', $defaultPath = '')
+	public function matchesUri($uri)
 	{
-		if ($path == '')
+		if ($this->uri == $uri)
 		{
-			$path = "{$slug}_manager";
+			return true;
 		}
 		
-		if ($defaultPath == '')
+		$regex = str_replace('{controller}', '[A-Za-z0-9]*', $this->uri);
+		$regex = str_replace('{action}', '[A-Za-z0-9]*', $regex);
+		
+		if (preg_match($regex, $uri, $matches))
 		{
-			$defaultPath = "{$slug}_config";
+			return true;
 		}
 		
-		$classRef = new ClassReference();
-		$classRef->className = $slug . 'Helper';
-		$classRef->classPath = $path;
-		$classRef->defaultPath = $defaultPath;
-		$classRef->slug = $slug;
-		
-		$this->_configs[$slug] = $classRef;
-	}
-	
-	/**
-	 * Adds a helper to the plugin instance
-	 * @param $uri string
-	 * @return void
-	 */
-	public function addHelper($slug, $path = '')
-	{
-		if ($path == '')
-		{
-			$path = "{$slug}_helper";
-		}
-		
-		$classRef = new ClassReference();
-		$classRef->className = $slug . 'Helper';
-		$classRef->classPath = $path;
-		$classRef->slug = $slug;
-		
-		$this->_helpers[$slug] = $classRef;
-	}
-	
-	/**
-	 * Adds a manager to the plugin instance
-	 * @param $uri string
-	 * @return void
-	 */
-	public function addManager($slug, $path = '')
-	{
-		if ($path == '')
-		{
-			$path = "{$slug}_manager";
-		}
-		
-		$classRef = new ClassReference();
-		$classRef->className = $slug . 'Manager';
-		$classRef->classPath = $path;
-		$classRef->slug = $slug;
-		
-		$this->_managers[$slug] = $classRef;
-	}
-	
-	/**
-	 * Adds a model to the plugin instance
-	 * @param $uri string
-	 * @return void
-	 */
-	public function addModel($slug, $path = '')
-	{
-		if ($path == '')
-		{
-			$path = $slug;
-		}
-		
-		$classRef = new ClassReference();
-		$classRef->className = $slug;
-		$classRef->classPath = $path;
-		$classRef->slug = $slug;
-		
-		$this->_models[$slug] = $classRef;
+		return false;
 	}
 	
 	/**

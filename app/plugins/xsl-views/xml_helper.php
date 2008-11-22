@@ -2,6 +2,13 @@
 
 /**
  * Xml helper, used within the xsl-views plugin for manipulating xml
+ *
+ * @package scratch.plugins.xsl-views
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class XmlHelper
 {

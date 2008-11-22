@@ -2,6 +2,13 @@
 
 /**
  * Loader class, used to load various objects such as models, managers, helpers, controllers, plugins etc..
+ *
+ * @package scratch.framework.clases
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class Loader
 {

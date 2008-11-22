@@ -2,6 +2,13 @@
 
 /**
  * Uri helper, provides some basic functions for sanitizing a uri
+ *
+ * @package scratch.framework.helpers
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class UriHelper
 {

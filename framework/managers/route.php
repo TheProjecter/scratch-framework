@@ -2,6 +2,13 @@
 
 /**
  * Route manager, handles all the routing from the url and converts such to a valid Route object
+ *
+ * @package scratch.framework.managers
+ * @author Adam Livesley and Steve Fletcher
+ * @copyright Adam Livesley and Steve Fletcher
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
 class RouteManager
 {
