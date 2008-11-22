@@ -35,7 +35,7 @@ class Scratch
 		$this->loader = new Loader();
 		
 		// what shall we load first?
-		$this->
+		
 	}
 	
 	/**
