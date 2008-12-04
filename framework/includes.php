@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Includes
  *
  * @package scratch
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -41,5 +41,6 @@ require_once('classes/model.php');
 
 // should exceptions use loader?
 require_once('exceptions/action_exceptions.php');
+require_once('exceptions/loader_exceptions.php');
 
 ?>

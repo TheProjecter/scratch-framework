@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Scratch application class, main file to bring the framework together
  *
  * @package scratch.framework.classes
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -40,6 +40,12 @@ class Scratch
 	 * @var Loader
 	 */
 	public $loader;
+	
+	/**
+	 * Current route instance
+	 * @var Route
+	 */
+	public $route;
 	
 	/**
 	 * Current controller instance
@@ -55,10 +61,31 @@ class Scratch
 	
 	public function __construct()
 	{
+		self::$__instance = $this;
+		
+		set_exception_handler('exceptionHandler');
+		
+		// setup our loader instance 
 		$this->loader = new Loader();
-		
+
+		// load a few helpers
+		$this->loader->helper('uri', FRAMEWORK_PATH . 'helpers');
+
+		// loader the plugins
+		$this->plugins = $this->loader->manager('plugins');
+		$this->plugins->loadFrameworkPlugins();
+
 		// what shall we load first?
-		
+		$this->route = $this->loader->manager('route')->find();
+
+		// load the controller
+		$this->controller = $this->loader->controller($this->route->getController());
+		$this->controller->invokeAction($this->route->getAction());
+	}
+	
+	public function exceptionHandler($ex)
+	{
+		echo "<br />\n" . $ex->getMessage();
 	}
 	
 	/**
@@ -69,8 +96,10 @@ class Scratch
 	{
 		if (self::$__instance == null)
 		{
-			self::$__instance = new Scratch();
+			new Scratch();
 		}
+		
+		if (self::$__instance == null) echo 'nulll';
 		
 		return self::$__instance;
 	}

@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Route manager, handles all the routing from the url and converts such to a valid Route object
  *
  * @package scratch.framework.managers
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -39,7 +39,11 @@ class RouteManager
 	
 	public function __construct()
 	{
+		$this->_routes = array();
 		
+		Scratch::singleton()->loader->frameworkModel('route');
+		
+		$this->_routes = Scratch::singleton()->loader->config('routes');
 	}
 	
 	/**
@@ -60,11 +64,13 @@ class RouteManager
 	{
 		foreach ($this->_routes as $route)
 		{
-			if ($route->matchUri($uri))
+			if ($route->matchesUri($uri))
 			{
 				return $route;
 			}
 		}
+		
+		return $this->_routes['default'];
 	}
 }
 

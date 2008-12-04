@@ -24,37 +24,23 @@
  */
 
 /**
- * XslViews plugin class, 
- *
- * @package scratch.plugins.xsl-views
+ * Type exceptions
+ * 
+ * @package scratch.framework.exceptions
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+
+class InvalidParameterTypeException extends Exception
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
-	
-	public function setup()
+	public function __construct($requiredType, $parameter)
 	{
-		// add the config
-		$this->config('xslviews');
-
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
-	}
-	
-	public function onRender()
-	{
+		$controllerType = get_class($controllerObject);
 		
+		parent::__construct(@"Excepted type '{$requiredType}' but got a parameter as the type: '{$controllerType}'");
 	}
 }
 

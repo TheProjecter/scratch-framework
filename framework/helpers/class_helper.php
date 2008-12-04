@@ -24,37 +24,28 @@
  */
 
 /**
- * XslViews plugin class, 
+ * Class helper, provides some basic utilties for creating dynamic classes
  *
- * @package scratch.plugins.xsl-views
+ * @package scratch.framework.helpers
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+class ClassHelper
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
-	
-	public function setup()
+	/**
+	 * Cleans the specified class name
+	 * @param string uri to be cleaned
+	 * @return string clean uri string
+	 */
+	public static function cleanClassName($className)
 	{
-		// add the config
-		$this->config('xslviews');
-
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
-	}
-	
-	public function onRender()
-	{
+		$str = ucwords($className);
+		$str = str_replace(' ', '', str_replace('_', '', $str));
 		
+		return $str;
 	}
 }
 

@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@
  * Optionally, a route can also define a mapping to a particular view
  *
  * @package scratch.framework.models
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -41,6 +41,10 @@ class Route extends Model
 	public $action;
 	public $view;
 	
+	public $defaultController;
+	public $defaultAction;
+	public $defaultView;
+	
 	/**
 	 * Calculates whether the specified uri matches the current Route mappings
 	 * @param $uri string
@@ -48,20 +52,47 @@ class Route extends Model
 	 */
 	public function matchesUri($uri)
 	{
+		// straight up and matches? save's loads of work
 		if ($this->uri == $uri)
 		{
 			return true;
 		}
 		
-		$regex = str_replace('{controller}', '[A-Za-z0-9]*', $this->uri);
-		$regex = str_replace('{action}', '[A-Za-z0-9]*', $regex);
-		
+		// argh, lets regex it then
+		$regex = str_replace('{controller}', "[a-z]+", $this->uri);
+		$regex = str_replace('{action}', '[a-z]+', $regex);
+		$regex = str_replace('/', '\/', $regex);
+		$regex = @"/{$regex}/i";
+	
 		if (preg_match($regex, $uri, $matches))
 		{
+			var_dump($matches);
+			
+			$this->defaultController = $matches[0];
+			$this->defaultAction = $matches[1];
+			
 			return true;
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Gets the current controller from the route, either the controller if it exists or the default controller value
+	 * @return string controller name
+	 */
+	public function getController()
+	{
+		return $this->controller == '' ? $this->defaultController : $this->controller;
+	}
+	
+	/**
+	 * Gets the current action from the route, either the action if it exists or the default action value
+	 * @return string action name
+	 */
+	public function getAction()
+	{
+		return $this->action == '' ? $this->defaultAction : $this->action;
 	}
 	
 	/**

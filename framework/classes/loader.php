@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Loader class, used to load various objects such as models, managers, helpers, controllers, plugins etc..
  *
  * @package scratch.framework.clases
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -37,7 +37,9 @@ class Loader
 {
 	protected static $__loaded = array();
 	protected static $__configs = array();
+	protected static $__controllers = array();
 	protected static $__helpers = array();
+	protected static $__managers = array();
 	protected static $__models = array();
 	protected static $__plugins = array();
 	
@@ -49,16 +51,23 @@ class Loader
 	/**
 	 * Loads the specified configuration file and stores the content
 	 * @param $name string Name of the configuration file to load
-	 * @return boolean returns true when the configuration has been successfully loaded
+	 * @return array returns true when the configuration has been successfully loaded
 	 */
-	public function loadConfig($name)
+	public function config($name, $basePath = '')
 	{
+		if ($basePath == '') $basePath = APP_PATH . "config";
+		
 		if (in_array($name, self::$__loaded))
 		{
-			return true;
+			return self::$__configs[$name];
 		}
 		
-		include(APP_PATH . "config/{$name}.php");
+		if (!file_exists("{$basePath}/{$name}.php"))
+		{
+			throw new LoaderConfigNotFound($name);
+		}
+		
+		include("{$basePath}/{$name}.php");
 		
 		if (isset($$name) && is_array($$name))
 		{
@@ -72,11 +81,66 @@ class Loader
 			}
 			
 			self::$__loaded[] = $name;
-			unset($config);
+			unset($$name);
 			
+			return self::$__configs[$name];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Loads the specified controller and returns the instance
+	 * @param $name string Name of controller to load
+	 * @return object returns the controller instance
+	 */
+	public function controller($name, $basePath = '')
+	{
+		if ($basePath == '') $basePath = APP_PATH . "controllers";
+		
+		if (!in_array($name, self::$__loaded))
+		{
+			if (!file_exists("{$basePath}/{$name}.php"))
+			{
+				return null;
+			}
+			
+			include("{$basePath}/{$name}.php");
+		}
+		
+		if (!array_key_exists($name, self::$__controllers))
+		{
+			$strName = ucwords(strtolower($name));
+			$className = "{$strName}Controller";
+			self::$__controllers[$name] = new $className(); 
+		}
+		
+		return self::$__controllers[$name];
+	}
+	
+	/**
+	 * Loads the specified helper
+	 * @param $name string Name of helper to load
+	 * @return boolean returns true when the helper has been successfully loaded
+	 */
+	public function helper($name, $basePath = '')
+	{
+		if ($basePath == '') $basePath = APP_PATH . "helpers";
+		
+		if (in_array($name, self::$__loaded))
+		{
 			return true;
 		}
 		
+		if (file_exists("{$basePath}/{$name}_helper.php"))
+		{
+			include("{$basePath}/{$name}_helper.php");
+			
+			self::$__loaded[] = $name;
+			
+			return true;
+		}
+
 		return false;
 	}
 	
@@ -85,21 +149,24 @@ class Loader
 	 * @param $name string Name of manager to load
 	 * @return object returns the manager instance
 	 */
-	public function loadManager($name)
+	public function manager($name, $basePath = '')
 	{
+		if ($basePath == '') $basePath = FRAMEWORK_PATH . "managers";
+		
 		if (!in_array($name, self::$__loaded))
 		{
-			if (!file_exists(FRAMEWORK_PATH . "managers/{$name}.php"))
+			if (!file_exists("{$basePath}/{$name}.php"))
 			{
 				return null;
 			}
 			
-			include(FRAMEWORK_PATH . "managers/{$name}.php");
+			include("{$basePath}/{$name}.php");
 		}
 		
 		if (!array_key_exists($name, self::$__managers))
 		{
-			$className = "{$name}Manager";
+			$strName = ucwords(strtolower($name));
+			$className = "{$strName}Manager";
 			self::$__managers[$name] = new $className(); 
 		}
 		
@@ -107,27 +174,59 @@ class Loader
 	}
 	
 	/**
-	 * Loads the specified helper
-	 * @param $name string Name of manager to load
-	 * @return boolean returns true when the helper has been successfully loaded
+	 * Loads the specified model
+	 * @param $name string Name of model to load
+	 * @return boolean returns true when the model has been successfully loaded
 	 */
-	public function loadHelper($name)
+	public function model($name, $basePath = '')
 	{
+		if ($basePath == '') $basePath = APP_PATH . "models";
+		
 		if (in_array($name, self::$__loaded))
 		{
 			return true;
 		}
 		
-		if (file_exists(APP_PATH . "helpers/{$name}.php"))
+		if (file_exists("{$basePath}/{$name}.php"))
 		{
-			include(APP_PATH . "helpers/{$name}.php");
+			include("{$basePath}/{$name}.php");
 			
 			self::$__loaded[] = $name;
 			
 			return true;
 		}
-		
+
 		return false;
+	}
+	
+	/**
+	 * Loads the specified framework helper
+	 * @param $name string Name of helper to load
+	 * @return boolean returns true when the helper has been successfully loaded
+	 */
+	public function frameworkHelper($name)
+	{
+		return $this->helper($name, FRAMEWORK_PATH . "helpers");
+	}
+	
+	/**
+	 * Loads the specified framework manager
+	 * @param $name string Name of manager to load
+	 * @return object returns an instance of the manager
+	 */
+	public function frameworkManager($name)
+	{
+		return $this->manager($name, FRAMEWORK_PATH . "managers");
+	}
+	
+	/**
+	 * Loads the specified framework model
+	 * @param $name string Name of model to load
+	 * @return boolean returns true when the model has been successfully loaded
+	 */
+	public function frameworkModel($name)
+	{
+		return $this->model($name, FRAMEWORK_PATH . "models");
 	}
 }
 
