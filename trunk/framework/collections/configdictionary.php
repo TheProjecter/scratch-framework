@@ -24,37 +24,28 @@
  */
 
 /**
- * XslViews plugin class, 
+ * Class reference model, used to describe a class name, path, slug and other options
  *
- * @package scratch.plugins.xsl-views
+ * @package scratch.framework.models
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+class ConfigDictionary extends Dictionary
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
-	
-	public function setup()
-	{
-		// add the config
-		$this->config('xslviews');
-
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
+	public function add($baseName, $configData)
+	{	
+		$dictionary = new ConfigDictionary();
+		$dictionary->load($configData);
+		
+		parent::add($baseName, $dictionary);
 	}
 	
-	public function onRender()
+	public function get($baseName, $key)
 	{
-		
+		return parent::fetch($baseName)->get($key);
 	}
 }
 

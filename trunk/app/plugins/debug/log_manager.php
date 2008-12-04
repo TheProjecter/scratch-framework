@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve Fletcher
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,44 +28,17 @@
  * framework and handles the logs.
  *
  * @package scratch.plugins.debug
- * @author Adam Livesley and Steve Fletcher
- * @copyright Adam Livesley and Steve Fletcher
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
 class LogManager
 {
-	protected $_routes;
-	
 	public function __construct()
 	{
 		
-	}
-	
-	/**
-	 * Finds the correct route from the uri
-	 * @return Route
-	 */
-	public function find()
-	{
-		return $this->findFromUri(UriHelper::cleanUri($_SERVER['REQUEST_URI']));
-	}
-	
-	/**
-	 * Finds the correct route from the uri
-	 * @param $uri string uri to find the string
-	 * @return Route
-	 */
-	public function findFromUri($uri)
-	{
-		foreach ($this->_routes as $route)
-		{
-			if ($route->matchUri($uri))
-			{
-				return $route;
-			}
-		}
 	}
 }
 

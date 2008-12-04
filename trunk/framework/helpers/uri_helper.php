@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Uri helper, provides some basic functions for sanitizing a uri
  *
  * @package scratch.framework.helpers
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -39,10 +39,10 @@ class UriHelper
 	{
 		if ($uri != '')
 		{
-			Scratch::singleton->config->set('application_uri', $uri);
+			Scratch::singleton()->config->set('application_uri', $uri);
 		}
 		
-		return Scratch::singleton->config->get('application_uri');
+		return Scratch::singleton()->config->get('application_uri');
 	}
 	
 	/**
@@ -52,9 +52,16 @@ class UriHelper
 	 */
 	public static function cleanUri($uri)
 	{
-		$uri = preg_replace('(\/)*', '/', $uri);
+		$uri = self::undoubleSlashes($uri);
+		$uri = rtrim($uri, '/');
+		$uri = ltrim($uri, '/');
 		
 		return $uri;
+	}
+	
+	public static function undoubleSlashes($uri)
+	{
+		return preg_replace('/[\/]+/i', '/', $uri);
 	}
 }
 

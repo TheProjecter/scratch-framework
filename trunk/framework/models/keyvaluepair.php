@@ -24,37 +24,41 @@
  */
 
 /**
- * XslViews plugin class, 
+ * Class reference model, used to describe a class name, path, slug and other options
  *
- * @package scratch.plugins.xsl-views
+ * @package scratch.framework.models
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+class KeyValuePair extends Model implements IComparable
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
-	
-	public function setup()
-	{
-		// add the config
-		$this->config('xslviews');
+	public $key;
+	public $value;
 
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
-	}
-	
-	public function onRender()
+	/**
+	 * Equals method, should compare whether the current object is equal to the specified object
+	 * @param $object object object to compare against
+	 * @return boolean true if the object matches the current object instance
+	 */
+	public function equals($object)
 	{
+		if (instanceof($IComparable))
+		{
+			if ($this->value == $object->value)
+			{
+				return true;
+			}
+		}
 		
+		if ($this->value == $object)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
 

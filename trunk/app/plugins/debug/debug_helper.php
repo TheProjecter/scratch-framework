@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,35 +27,15 @@
  * Debug helper, provides some basic debugging functions
  *
  * @package scratch.plugins.debug
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
 class DebugHelper
 {
-	public static function getApplicationUri($uri = '')
-	{
-		if ($uri != '')
-		{
-			Scratch::singleton->config->set('application_uri', $uri);
-		}
-		
-		return Scratch::singleton->config->get('application_uri');
-	}
 	
-	/**
-	 * Cleans the specified uri
-	 * @param string uri to be cleaned
-	 * @return string clean uri string
-	 */
-	public static function cleanUri($uri)
-	{
-		$uri = preg_replace('(\/)*', '/', $uri);
-		
-		return $uri;
-	}
 }
 
 ?>

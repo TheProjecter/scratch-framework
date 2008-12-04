@@ -2,7 +2,7 @@
 
 /* 
  * The MIT License
- * Copyright (c) 2008, Adam Livesley and Steve <unknown>
+ * Copyright (c) 2008, Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@
  * Launcher
  *
  * @package scratch
- * @author Adam Livesley and Steve <unknown>
- * @copyright Adam Livesley and Steve <unknown>
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
@@ -42,12 +42,17 @@ define('SCRATCH_VERSION', '0.2');
 
 require('includes.php');
 
+function exceptionHandler($ex)
+{
+	Scratch::singleton()->exceptionHandler($ex);
+}
+
 /**
  * Launcher class, the initial class used to invoke the framework 
  */
 class Launcher
 {	
-	private static $__application;
+	public static $application;
 	
 	/**
 	 * Invokes the framework, application and object setup.
@@ -59,7 +64,7 @@ class Launcher
 		// invoke the controller
 		// invoke the action
 		// invoke the view
-		self::$__application = new Scratch();
+		self::$application = Scratch::singleton();
 	}
 }
 

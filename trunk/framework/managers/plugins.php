@@ -24,37 +24,71 @@
  */
 
 /**
- * XslViews plugin class, 
+ * Plugins manager, handles framework plugins (the loading, management, activation etc..)
  *
- * @package scratch.plugins.xsl-views
+ * @package scratch.framework.managers
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+class PluginsManager
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
+	protected $_plugins;
 	
-	public function setup()
-	{
-		// add the config
-		$this->config('xslviews');
-
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
-	}
-	
-	public function onRender()
+	public function __construct()
 	{
 		
+	}
+	
+	/**
+	 * Loads all the plugins, and prepares them for activation
+	 * @return void
+	 */
+	public function loadFrameworkPlugins()
+	{
+		try
+		{
+			$pluginsConf = Scratch::singleton()->loader->config('plugins');
+		}
+		catch (LoaderConfigNotFound $ex)
+		{
+			echo 'Skipping plugins';
+			return;
+		}
+		
+		foreach ($pluginsConf as $pluginName)
+		{
+			$plugin = Scratch::singleton()->loader->plugin($pluginName);
+			$plugin->setup();
+
+			$this->_plugins[$pluginName] = $plugin;
+		}
+	}
+	
+	/**
+	 * Activates all the loaded plugins
+	 * @return void
+	 */
+	public function activate()
+	{
+		foreach ($this->_plugins as $pluginName => $plugin)
+		{
+			$plugin->activate();
+		}
+	}
+	
+	/**
+	 * Deactivates all the loaded plugins
+	 * @return void
+	 */
+	public function deactivate()
+	{
+		foreach ($this->_plugins as $pluginName => $plugin)
+		{
+			$plugin->deactivate();
+		}
 	}
 }
 

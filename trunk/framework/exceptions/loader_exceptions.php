@@ -24,37 +24,37 @@
  */
 
 /**
- * XslViews plugin class, 
- *
- * @package scratch.plugins.xsl-views
+ * Loader exceptions
+ * 
+ * @package scratch.framework.exceptions
  * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
  * @license MIT License
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+
+class LoaderConfigNotFound extends Exception
 {
-	public $name = 'xsl views';
-	public $slug = 'scratch.plugins.xslviews';
-	public $author = 'sixones';
-	public $uri = 'http://scratchframework.com/';
-	
-	public function setup()
+	public function __construct($configName)
 	{
-		// add the config
-		$this->config('xslviews');
-
-		// add the helper
-		$this->helper('xml');
-
-		// add the manager
-		$this->manager('xslcreator');
+		parent::__construct(@"Config file '{$configName}' not found");
 	}
-	
-	public function onRender()
+}
+
+class LoaderModelNotFound extends Exception
+{
+	public function __construct($modelName)
 	{
-		
+		parent::__construct(@"Model '{$modelName}' not found");
+	}
+}
+
+class LoaderPluginNotFound extends Exception
+{
+	public function __construct($pluginName)
+	{
+		parent::__construct(@"Plugin '{$pluginName}' not found");
 	}
 }
 
