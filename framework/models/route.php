@@ -59,17 +59,15 @@ class Route extends Model
 		}
 		
 		// argh, lets regex it then
-		$regex = str_replace('{controller}', "[a-z]+", $this->uri);
-		$regex = str_replace('{action}', '[a-z]+', $regex);
+		$regex = str_replace('{controller}', "([a-z]+)", $this->uri);
+		$regex = str_replace('{action}', '([a-z]+)', $regex);
 		$regex = str_replace('/', '\/', $regex);
 		$regex = @"/{$regex}/i";
-	
+		
 		if (preg_match($regex, $uri, $matches))
 		{
-			var_dump($matches);
-			
-			$this->defaultController = $matches[0];
-			$this->defaultAction = $matches[1];
+			$this->controller = $matches[1];
+			$this->action = $matches[2];
 			
 			return true;
 		}
@@ -107,8 +105,8 @@ class Route extends Model
 	{
 		$route = new Route();
 		$route->uri = $uri;
-		$route->controller = $controller;
-		$route->action = $action;
+		$route->defaultController = $controller;
+		$route->defaultAction = $action;
 		$route->view = $view;
 		
 		return $route;

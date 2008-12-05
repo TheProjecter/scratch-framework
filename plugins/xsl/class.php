@@ -45,7 +45,7 @@ class XslPlugin extends Plugin
 	
 	public function setup()
 	{
-		$this->directory = realpath(__FILE__);
+		$this->directory = realpath(dirname(__FILE__)) . '/';
 		
 		// add the config
 		$this->config('xslviews');

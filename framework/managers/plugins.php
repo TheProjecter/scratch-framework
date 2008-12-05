@@ -35,7 +35,7 @@
  */
 class PluginsManager
 {
-	protected $_plugins;
+	public $loaded;
 	
 	public function __construct()
 	{
@@ -78,7 +78,7 @@ class PluginsManager
 				}
 			}
 
-			$this->_plugins[$pluginName] = $plugin;
+			$this->loaded[$pluginName] = $plugin;
 		}
 	}
 	
