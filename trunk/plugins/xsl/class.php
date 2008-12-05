@@ -33,15 +33,18 @@
  * @version $Id$
  * @link http://scratchframework.com/
  */
-class XslViews extends Plugin
+class XslPlugin extends Plugin
 {
 	public $name = 'xsl views';
 	public $slug = 'scratch.plugins.xslviews';
 	public $author = 'sixones';
 	public $uri = 'http://scratchframework.com/';
+	public $directory;
 	
 	public function setup()
 	{
+		$this->directory = realpath(__FILE__);
+		
 		// add the config
 		$this->config('xslviews');
 
@@ -50,11 +53,13 @@ class XslViews extends Plugin
 
 		// add the manager
 		$this->manager('xslcreator');
+		
+		Scratch::singleton()->addListener(ViewEvent::$RENDER, $this, 'onViewRender');
 	}
 	
-	public function onRender()
+	public function onViewRender()
 	{
-		
+		echo '<br /><br />XslViews->onViewRender';
 	}
 }
 

@@ -1,0 +1,5 @@
+<?php
+
+$plugins['xsl'] = 'xsl';
+
+?>

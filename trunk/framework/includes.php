@@ -36,8 +36,12 @@
 
 require_once('classes/scratch.php');
 require_once('classes/loader.php');
+require_once('classes/event.php');
 require_once('classes/controller.php');
 require_once('classes/model.php');
+require_once('classes/plugin.php');
+
+require_once('events/view_event.php');
 
 // should exceptions use loader?
 require_once('exceptions/action_exceptions.php');

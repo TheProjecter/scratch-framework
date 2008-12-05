@@ -40,6 +40,9 @@ abstract class Plugin
 	public $author;
 	public $uri;
 	
+	public $directory;
+	
+	public $configs = array();
 	public $controllers = array();
 	public $dependancies = array();
 	public $helpers = array();
@@ -51,7 +54,7 @@ abstract class Plugin
 	
 	public function __construct()
 	{
-		$this->setup();
+		
 	}
 	
 	public function __destruct()
@@ -76,7 +79,7 @@ abstract class Plugin
 	
 	public function config($name)
 	{
-		
+		$this->configs[] = $name;
 	}
 	
 	public function dependancy($name)
@@ -86,7 +89,7 @@ abstract class Plugin
 	
 	public function helper($name, $basePath = '')
 	{
-		if ($basePath == '') $basePath = $this->pluginDirectory;
+		if ($basePath == '') $basePath = $this->directory;
 		
 		$classRef = new ClassReference();
 		$classRef->className = ClassHelper::cleanClassName($name . 'Helper');
@@ -97,7 +100,7 @@ abstract class Plugin
 	
 	public function manager($name, $basePath = '')
 	{
-		if ($basePath == '') $basePath = $this->pluginDirectory;
+		if ($basePath == '') $basePath = $this->directory;
 		
 		$classRef = new ClassReference();
 		$classRef->className = ClassHelper::cleanClassName($name . 'Manager');
@@ -108,7 +111,7 @@ abstract class Plugin
 	
 	public function model($name, $basePath = '')
 	{
-		if ($basePath == '') $basePath = $this->pluginDirectory;
+		if ($basePath == '') $basePath = $this->directory;
 		
 		$classRef = new ClassReference();
 		$classRef->className = ClassHelper::cleanClassName($name);
