@@ -54,6 +54,12 @@ class Scratch
 	public $controller;
 	
 	/**
+	 * Plugins managers
+	 * @var PluginsManager
+	 */
+	public $plugins;
+	
+	/**
 	 * Array of log messages
 	 * @var Array
 	 */

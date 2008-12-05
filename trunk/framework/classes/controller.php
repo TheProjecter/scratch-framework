@@ -38,6 +38,8 @@ class Controller
 {
 	protected $scratch;
 	
+	public $actionResult = array();
+	
 	public function __construct()
 	{
 		$this->scratch = Scratch::singleton();
@@ -48,6 +50,8 @@ class Controller
 		if (method_exists($this, $actionName))
 		{
 			$this->actionResult = $this->$actionName();
+			
+			$this->scratch->dispatchEvent(new ViewEvent(ViewEvent::$RENDER));
 		}
 		else
 		{
