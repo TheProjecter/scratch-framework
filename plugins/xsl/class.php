@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+include('serialiser.php');
+
 /**
  * XslViews plugin class, 
  *
@@ -59,7 +61,12 @@ class XslPlugin extends Plugin
 	
 	public function onViewRender()
 	{
-		echo '<br /><br />XslViews->onViewRender';
+		header('Content-Type: text/xml');
+		
+		$serialiser = new Serialiser();
+		$xmlDom = $serialiser->serialise(Scratch::singleton());
+		
+		echo $xmlDom->saveXML();
 	}
 }
 
