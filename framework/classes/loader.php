@@ -45,7 +45,8 @@ class Loader
 	
 	public function __construct()
 	{
-		
+		$this->helper('class', 'framework/helpers');
+		$this->model('classreference', 'framework/models');
 	}
 	
 	/**
@@ -116,6 +117,34 @@ class Loader
 		}
 		
 		return self::$__controllers[$name];
+	}
+	
+	/**
+	 * Loads the specified plugin and returns the instance
+	 * @param $name string Name of plugin to load
+	 * @return object returns the plugin instance
+	 */
+	public function plugin($name, $basePath = '')
+	{
+		if ($basePath == '') $basePath = PLUGINS_PATH;
+		
+		if (!in_array($name, self::$__loaded))
+		{
+			if (!file_exists("{$basePath}/{$name}/class.php"))
+			{
+				throw new LoaderPluginNotFound($name);
+			}
+			
+			include("{$basePath}/{$name}/class.php");
+		}
+		
+		if (!array_key_exists($name, self::$__plugins))
+		{
+			$strName = ClassHelper::cleanClassName($name . 'Plugin');
+			self::$__plugins[$name] = new $strName();
+		}
+		
+		return self::$__plugins[$name];
 	}
 	
 	/**

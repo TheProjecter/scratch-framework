@@ -5,6 +5,8 @@ class ApplicationController extends Controller
 	public function index()
 	{
 		echo 'Default -> ApplicationController';
+		
+		$this->scratch->dispatchEvent(new ViewEvent(ViewEvent::$RENDER));
 	}
 }
 

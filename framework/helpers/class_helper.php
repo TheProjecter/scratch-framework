@@ -42,8 +42,8 @@ class ClassHelper
 	 */
 	public static function cleanClassName($className)
 	{
-		$str = ucwords($className);
-		$str = str_replace(' ', '', str_replace('_', '', $str));
+		$str = ucwords(str_replace('_', ' ', str_replace('-', ' ', $className)));
+		$str = str_replace(' ', '', $str);
 		
 		return $str;
 	}

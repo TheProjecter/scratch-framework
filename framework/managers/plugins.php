@@ -62,6 +62,21 @@ class PluginsManager
 		{
 			$plugin = Scratch::singleton()->loader->plugin($pluginName);
 			$plugin->setup();
+			
+			if (count($plugin->dependancies) >= 0)
+			{
+				foreach($plugin->dependancies as $dependancy)
+				{
+					if (!isset($this->_plugins[$dependancy]))
+					{
+						// load dependacy
+						$dependancyPlugin = Scratch::singleton()->loader->plugin($dependancy);
+						$dependancyPlugin->setup();
+						
+						$this->_plugins[$dependancy] = $dependancyPlugin;
+					}
+				}
+			}
 
 			$this->_plugins[$pluginName] = $plugin;
 		}

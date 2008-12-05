@@ -54,6 +54,12 @@ class Scratch
 	public $controller;
 	
 	/**
+	 * Array of log messages
+	 * @var Array
+	 */
+	public $logs = array();
+	
+	/**
 	 * Current instance of this class
 	 * @var Scratch
 	 */
@@ -83,9 +89,39 @@ class Scratch
 		$this->controller->invokeAction($this->route->getAction());
 	}
 	
+	public function addListener($eventType, $listener, $method)
+	{
+		$eventObj->type = $eventType;
+		$eventObj->listener = $listener;
+		$eventObj->method = $method;
+		
+		$this->_listeners[$eventType][] = $eventObj;
+	}
+	
+	public function dispatchEvent($event)
+	{
+		if (isset($this->_listeners[$event->type]))
+		{
+			foreach ($this->_listeners[$event->type] as $listener)
+			{
+				if (method_exists($listener->listener, $listener->method))
+				{
+					call_user_func(array($listener->listener, $listener->method), $event);
+				}
+			}
+		}
+	}
+	
 	public function exceptionHandler($ex)
 	{
-		echo "<br />\n" . $ex->getMessage();
+		$this->log($ex->getMessage());
+		
+		echo $ex->getMessage();
+	}
+	
+	public function log($message, $severity = 'message')
+	{
+		$this->logs[$severity][] = $message;
 	}
 	
 	/**
