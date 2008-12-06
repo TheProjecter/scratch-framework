@@ -59,10 +59,12 @@ class Route extends Model
 		}
 		
 		// argh, lets regex it then
-		$regex = str_replace('{controller}', "([a-z]+)", $this->uri);
-		$regex = str_replace('{action}', '([a-z]+)', $regex);
-		$regex = str_replace('/', '\/', $regex);
-		$regex = @"/{$regex}/i";
+		$regex = $this->createRegEx($this->uri);
+		
+		$paths = split('/', $this->uri);
+
+		// TODO: allow multiple path uris
+		$secondRegex = $this->createRegEx($paths[0]);
 		
 		if (preg_match($regex, $uri, $matches))
 		{
@@ -72,7 +74,25 @@ class Route extends Model
 			return true;
 		}
 		
+		if (preg_match($secondRegex, $uri, $matches))
+		{
+			$this->controller = $matches[1];
+			$this->action = $this->defaultAction;
+			
+			return true;
+		}
+		
 		return false;
+	}
+	
+	protected function createRegEx($str)
+	{
+		$regex = str_replace('{controller}', "([a-z]+)", $str);
+		$regex = str_replace('{action}', '([a-z]+)', $regex);
+		$regex = str_replace('/', '\/', $regex);
+		$regex = @"/{$regex}/i";
+		
+		return $regex;
 	}
 	
 	/**
