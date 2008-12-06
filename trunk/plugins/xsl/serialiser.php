@@ -117,8 +117,7 @@ class Serialiser
 					$attr = array('name' => $key, 'type' => getType($val));
 				}
 				
-				$key = get_class($val) != null ? get_class($val) : is_int($key) ? gettype($val) : $key;
-				
+				$key = (is_object($val) ? get_class($val) : (is_int($key) ? gettype($val) : $key));
 				$this->serialiseValue($parent, $val, $key, $attr);
 			}
 		}

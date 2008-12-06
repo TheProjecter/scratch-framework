@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined('SCRATCH')) { header('Location: /'); exit(); }
 
 /* 
  * The MIT License
@@ -23,40 +23,63 @@
  * THE SOFTWARE.
  */
 
-error_reporting(E_ALL);
-
 /**
- * Base directory path of all application + scratch source files, used to simplify directory settings
- * @global string|constant
+ * Activerecord model class, 
+ *
+ * @package scratch.plugins.activerecord
+ * @author Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @copyright Adam Livesley <sixones.devel@me.com> and Steve F <timedout@12ohms.com>
+ * @license MIT License
+ * @version $Id$
+ * @link http://scratchframework.com/
  */
-define('BASE_PATH', '');
-
-/**
- * Location of the application directory (requires trailing slash)
- * @global string|constant
- */
-define('APP_PATH', BASE_PATH . "collab/");
-
-/**
- * Location of the plugins directory (requires trailing slash)
- * @global string|constant
- */
-define('PLUGINS_PATH', BASE_PATH . "plugins/");
-
-
-/**
- * Location of the scratch directory (requires trailing slash)
- * @global string|constant
- */
-define('FRAMEWORK_PATH', BASE_PATH . "framework/");
-
-/**
- * Defines a global SCRATCH constant, allows us to make sure files are not accessed outside of the scratch routing
- * should not be removed or changed, doing so will stop the framework and application from being executed.
- * @global boolean|constant
- */
-define('SCRATCH', true);
-
-require_once(FRAMEWORK_PATH . 'launcher.php');
+class Activerecord extends Model
+{
+	public $id = 0;
+	public $autoLoad = false;
+	
+	protected $_properties;
+	
+	public function __construct($id = 0)
+	{
+		$this->id = $id;
+		
+		if ($this->id && $this->autoLoad)
+		{
+			$this->load();
+		}
+	}
+	
+	public function save()
+	{
+		if ($this->id == 0)
+		{
+			$this->create();
+		}
+		else
+		{
+			$this->update();
+		}
+	}
+	
+	public function create()
+	{
+		
+	}
+	
+	public function update()
+	{
+		if ($this->id == 0) throw new Exception("Trying to update on a model with no id.");
+		
+		
+	}
+	
+	public function delete()
+	{
+		if ($this->id == 0) throw new Exception("Trying to delete a model with no id.");
+		
+		
+	}
+}
 
 ?>
