@@ -1,0 +1,3 @@
+scratch framework is an open source project aiming to provide a complete modular based framework for web applications. the core of the framework is simple allowing developers to add the functionality they need on a per application basis.
+
+currently there isnt any documentation on using the framework, but this will be rectified soon. if anyone is interested in the project, the source code is available via the source tab at the top, there is phpdoc's commenting throughout the code.

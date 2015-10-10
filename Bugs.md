@@ -1,0 +1,1 @@
+Bug tracking can be found at: http://www.bugtails.com/projects/174/
